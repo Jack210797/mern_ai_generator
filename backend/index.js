@@ -3,10 +3,24 @@ import express from 'express'
 import mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 import PostRouter from './routes/Posts.js'
+import generateImageRouter from './routes/GenerateImage.js'
+import helmet from 'helmet'
 
 dotenv.config()
-
 const app = express()
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", 'data:', 'https:']
+      }
+    }
+  })
+)
 
 app.use(cors())
 app.use(express.json({ limit: '50mb', extended: true }))
@@ -24,6 +38,7 @@ app.use((err, req, res, next) => {
 })
 
 app.use('/api/post', PostRouter)
+app.use('/api/generateImage', generateImageRouter)
 
 //default get
 app.get('/', async (req, res) => {

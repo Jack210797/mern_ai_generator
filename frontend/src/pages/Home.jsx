@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import SearchBar from '../component/SearchBar'
 import ImageCard from '../component/ImageCard'
@@ -65,8 +64,7 @@ const CardWrapper = styled.div`
 `
 const Home = () => {
   const item = {
-    photo:
-      'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/ba/29/5c/img-worlds-of-adventure.jpg?w=900&h=500&s=1',
+    photo: 'https://your-image-url.jpg',
     author: 'Suvorov',
     promt: 'Hey! I am Suvorov'
   }
@@ -81,13 +79,6 @@ const Home = () => {
 
       <Wrapper>
         <CardWrapper>
-          <ImageCard item={item} />
-          <ImageCard item={item} />
-          <ImageCard item={item} />
-          <ImageCard item={item} />
-          <ImageCard item={item} />
-          <ImageCard item={item} />
-          <ImageCard item={item} />
           <ImageCard item={item} />
           <ImageCard item={item} />
           <ImageCard item={item} />

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Button from './button'
 import TextInput from './TextInput'
 import { AutoAwesome, CreateRounded } from '@mui/icons-material'
+import { GenerateAiImage } from '../api/index.js'
 
 const Form = styled.div`
   flex: 1;
@@ -47,17 +48,34 @@ const GenerateImageForm = ({
   post,
   setPost,
   creatPostLoading,
-  setcreatPostLoading,
-  generateImagineLoading,
-  setgenerateImagineLoading
+  setCreatPostLoading,
+  generateImageLoading,
+  setGenerateImageLoading
 }) => {
-  const generateImageFunc = () => {
-    setgenerateImagineLoading(true)
+  const generateImageFunc = async () => {
+    try {
+      setGenerateImageLoading(true)
+      const response = await GenerateAiImage({
+        prompt: post?.prompt,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response?.data?.data?.photo) {
+        setPost({ ...post, photo: response.data.data.photo })
+      }
+    } catch (error) {
+      console.log('Помилка генерації:', error)
+    } finally {
+      setGenerateImageLoading(false)
+    }
   }
 
   const createPostFunc = () => {
-    setcreatPostLoading(true)
+    setCreatPostLoading(true)
   }
+
   return (
     <Form>
       <Top>
@@ -88,7 +106,7 @@ const GenerateImageForm = ({
           text="Generate image"
           flex
           leftIcon={<AutoAwesome />}
-          isLoading={generateImagineLoading}
+          isLoading={generateImageLoading}
           isDisabled={post.prompt === ''}
           onClick={() => generateImageFunc()}
         />

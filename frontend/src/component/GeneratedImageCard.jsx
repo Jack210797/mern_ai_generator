@@ -15,7 +15,7 @@ const Container = styled.div`
   border-radius: 20px;
 `
 
-const Image = styled.div`
+const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -32,7 +32,7 @@ const GeneratedImageCard = ({ src, loading }) => {
           Generating Your Image...
         </>
       ) : (
-        <>{src ? <Image src={src} /> : <> Write a prompt to generate image</>}</>
+        <>{src ? <Image src={src} alt="Generated AI Image" /> : <> Write a prompt to generate image</>}</>
       )}
     </Container>
   )

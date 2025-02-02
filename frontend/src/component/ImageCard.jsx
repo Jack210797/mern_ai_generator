@@ -62,9 +62,24 @@ const Author = styled.div`
 `
 
 const ImageCard = ({ item }) => {
+  console.log('Image data:', item)
   return (
     <Card>
-      <LazyLoadImage style={{ borderRadius: '12px' }} alt="item?.promt" width="100%" src={item?.photo} />
+      <LazyLoadImage
+        style={{ borderRadius: '12px', width: '100%', height: '100%', objectFit: 'cover' }}
+        alt={item?.prompt || 'AI Generated Image'}
+        src={item?.photo}
+        effect="opacity"
+        placeholder={
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              background: '#1a1a1a'
+            }}
+          />
+        }
+      />
       <HoverOverlay>
         <Promt>{item?.promt}</Promt>
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
