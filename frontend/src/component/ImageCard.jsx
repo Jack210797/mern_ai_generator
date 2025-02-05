@@ -63,6 +63,9 @@ const Author = styled.div`
 
 const ImageCard = ({ item }) => {
   console.log('Image data:', item)
+  if (!item || !item.photo) {
+    return null
+  }
   return (
     <Card>
       <LazyLoadImage
@@ -81,11 +84,11 @@ const ImageCard = ({ item }) => {
         }
       />
       <HoverOverlay>
-        <Promt>{item?.promt}</Promt>
+        <Promt>{item.promt}</Promt>
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Author>
-            <Avatar sx={{ width: '32px', height: '32px' }}>{item?.author[0]}</Avatar>
-            {item?.author}
+            <Avatar sx={{ width: '32px', height: '32px' }}>{item?.name[0]}</Avatar>
+            {item?.name}
           </Author>
           <DownloadRounded onClick={() => FileSaver.saveAs(item?.photo, 'donwload.jpg')} />
         </div>

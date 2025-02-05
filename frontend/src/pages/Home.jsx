@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 import SearchBar from '../component/SearchBar'
 import ImageCard from '../component/ImageCard'
+import { useState, useEffect } from 'react'
+import { CircularProgress } from '@mui/material'
+import { GetPosts } from '../api/index.js'
 
 const Container = styled.div`
   display: flex;
@@ -63,11 +66,45 @@ const CardWrapper = styled.div`
   }
 `
 const Home = () => {
-  const item = {
-    photo: 'https://your-image-url.jpg',
-    author: 'Suvorov',
-    promt: 'Hey! I am Suvorov'
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [search, setSearch] = useState('')
+  const [filteredPosts, setFilteredPosts] = useState([])
+
+  const getPosts = async () => {
+    try {
+      setLoading(true)
+      const res = await GetPosts()
+      setPosts(res?.data?.data)
+      setFilteredPosts(res?.data?.data)
+    } catch (error) {
+      setError(error?.response?.data?.message)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  useEffect(() => {
+    getPosts()
+  }, [])
+
+  //search
+
+  useEffect(() => {
+    if (!search) {
+      setFilteredPosts(posts)
+    }
+
+    const searchFilteredPosts = posts.filter((post) => {
+      const promtMatch = post?.prompt?.toLowerCase().includes(search.toLocaleLowerCase())
+      const authorMatch = post?.name?.toLowerCase().includes(search.toLocaleLowerCase())
+
+      return promtMatch || authorMatch
+    })
+
+    setFilteredPosts(searchFilteredPosts)
+  }, [posts, search])
 
   return (
     <Container>
@@ -75,14 +112,26 @@ const Home = () => {
         Explore popular post in the Community!
         <Span>◉ Generated with AI ◉</Span>
       </HeadLine>
-      <SearchBar />
+      <SearchBar search={search} setSearch={setSearch} />
 
       <Wrapper>
-        <CardWrapper>
-          <ImageCard item={item} />
-          <ImageCard item={item} />
-          <ImageCard item={item} />
-        </CardWrapper>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <>
+            {filteredPosts && filteredPosts.length > 0 ? (
+              <CardWrapper>
+                {filteredPosts
+                  .slice()
+                  .reverse()
+                  .map((item, index) => item && <ImageCard key={index} item={item} />)}
+              </CardWrapper>
+            ) : (
+              <>No Posts Found</>
+            )}
+          </>
+        )}
       </Wrapper>
     </Container>
   )

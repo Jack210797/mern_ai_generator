@@ -2,7 +2,9 @@ import styled from 'styled-components'
 import Button from './button'
 import TextInput from './TextInput'
 import { AutoAwesome, CreateRounded } from '@mui/icons-material'
-import { GenerateAiImage } from '../api/index.js'
+import { GenerateAiImage, CreatePost } from '../api/index.js'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Form = styled.div`
   flex: 1;
@@ -52,6 +54,8 @@ const GenerateImageForm = ({
   generateImageLoading,
   setGenerateImageLoading
 }) => {
+  const navigate = useNavigate()
+  const [error, setError] = useState('')
   const generateImageFunc = async () => {
     try {
       setGenerateImageLoading(true)
@@ -66,14 +70,33 @@ const GenerateImageForm = ({
         setPost({ ...post, photo: response.data.data.photo })
       }
     } catch (error) {
-      console.log('Помилка генерації:', error)
+      console.log('Catch error:', error)
+      setError(error?.response?.data?.message)
     } finally {
       setGenerateImageLoading(false)
     }
   }
 
-  const createPostFunc = () => {
-    setCreatPostLoading(true)
+  const createPostFunc = async () => {
+    try {
+      setCreatPostLoading(true)
+      const response = await CreatePost({
+        ...post,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response?.data?.data?.photo) {
+        setPost({ ...post, photo: response.data.data.photo })
+      }
+    } catch (error) {
+      console.log('Cant create post:', error)
+      setError(error?.response?.data?.message)
+    } finally {
+      setCreatPostLoading(false)
+      navigate('/')
+    }
   }
 
   return (
@@ -99,6 +122,7 @@ const GenerateImageForm = ({
           value={post?.prompt}
           handelChange={(e) => setPost({ ...post, prompt: e.target.value })}
         />
+        {error && <div style={{ color: 'red' }}>{error}</div>}
         ** You can post the AI Generation Image to the Community **
       </Body>
       <Actions>
