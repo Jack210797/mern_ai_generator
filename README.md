@@ -24,14 +24,13 @@ This project demonstrates authentication, API integration, and real-world full-s
 
 * React
 * JavaScript
-* CSS / Tailwind (if used)
-
+* CSS / Tailwind
+* 
 **Backend**
 
 * Node.js
 * Express.js
 * MongoDB + Mongoose
-* JWT Authentication
 
 **Other**
 
@@ -99,7 +98,6 @@ The project requires the following environment variables:
 After starting both frontend and backend:
 
 * Open the frontend in your browser
-* Register or log in
 * Generate AI content through the interface
 
 ---
@@ -127,7 +125,6 @@ mern_ai_generator/
 This project was built to practice:
 
 * Full-stack MERN architecture
-* Authentication flows
 * API integration
 * Database design
 * Deployment workflows
@@ -139,3 +136,4 @@ This project was built to practice:
 This project is open-source and available under the MIT License.
 
  
+
