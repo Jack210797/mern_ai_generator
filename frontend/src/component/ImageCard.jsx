@@ -62,10 +62,10 @@ const Author = styled.div`
 `
 
 const ImageCard = ({ item }) => {
-  console.log('Image data:', item)
   if (!item || !item.photo) {
     return null
   }
+  
   return (
     <Card>
       <LazyLoadImage
@@ -98,3 +98,4 @@ const ImageCard = ({ item }) => {
 }
 
 export default ImageCard
+
