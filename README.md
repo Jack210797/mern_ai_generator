@@ -2,7 +2,7 @@
 
 A full-stack MERN web application that generates AI-powered content through a modern React interface and a Node.js backend API.
 
-This project demonstrates authentication, API integration, and real-world full-stack architecture using the MERN stack.
+This project demonstrates API integration, and real-world full-stack architecture using the MERN stack.
 
 ---
 
@@ -136,4 +136,5 @@ This project was built to practice:
 This project is open-source and available under the MIT License.
 
  
+
 
